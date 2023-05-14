@@ -15,7 +15,7 @@ r = 1000 # r = 100-4000m, range
 c1 = 1500 # Speed of sound, 1500 m/s
 t_d = r/c1 # Transmission delay t_d = r/c
 p_lt = 0.001 # Target packet loss ratio
-gamma = 32 # The average SNR at the receiver
+gamma = 31.62 # The average SNR at the receiver, 0<gamma_dB<30
 
 # Starting values 
 start_N = 600
