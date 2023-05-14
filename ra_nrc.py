@@ -97,9 +97,25 @@ c = 1E-8
 # bb multiplier (used in the barrier method)
 mu = 2
 
+# Number of sequences before increasing bb
+gamma = 20
+
+# How exact one wants before the simulation stops. A lower tolerance value => more exact
+tolerance = 1e-3
+
+# We set a very low epsilon value first iteration to not get a big jump in the beginning
+epsilon = 0.00001
+
+# The bb value is also used as the "t" parameter. This is the parameter used in the barrier method / interior point method.
+# It is important to not start with a too big bb value. 
+bb = 5
+
+# Max iterations (if it never converges)
+max_iter = 1000
+
 # Note: The next steps heavily follows the given pseudocode in the bachelor report.
 
-# ------Initialization node i------
+# -----------------Initialization node i--------------------
 
 # Initial estimate for node i for the global optimization. Arbitrary values.
 xi = np.array([
@@ -113,9 +129,8 @@ zi, hi, hi_old = np.identity(n), np.identity(n), np.identity(n) # if n=3 -> they
 sigmai_y, sigmai_z = np.zeros((n, 1)), np.zeros((n, n)) # 3x1 and 3x3 filled with zeros. Gradient is 3x1 and hessian is 3x3
 sigmaj_y, sigmaj_z = np.zeros((n, 1)), np.zeros((n, n)) 
 rhoi_y, rhoi_z = np.zeros((n,1)), np.zeros((n,n))
-        
 
-# ------Initialization node j------
+# ------------------Initialization node j------------------------
 
 # Initial estimate for node j for the global optimization. Arbitrary values.
 xj = np.array([ 
@@ -129,12 +144,10 @@ zj, hj, hj_old = np.identity(n), np.identity(n), np.identity(n) # if n=3 -> they
 sigmaj_y, sigmaj_z = np.zeros((n, 1)), np.zeros((n, n)) # 3x1 and 3x3. Gradient is 3x1 and hessian is 3x3
 rhoj_y, rhoj_z = np.zeros((n,1)), np.zeros((n,n))
 
-# --------initalization over---------------
-
 flag_reception, flag_update, flag_transmission, flag_update2, flag_reception2, flag_transmission2 = 0, 0, 0, 0, 0, 0
 flag_update = 1
 
-# Used for when plotting N, M and m. Just to see how they are evolving
+# Used for when plotting N, M and m.
 #node i
 N_list = np.array(xi[0])
 M_list = np.array(xi[1])
@@ -144,15 +157,9 @@ N_list2 = np.array(xj[0])
 M_list2 = np.array(xj[1])
 m_list2 = np.array(xj[2])
 i = 1
+#---------------------------------------------------------------------------------------
 
-# We set a very low epsilon value first iteration to not get a big jump in the beginning
-epsilon = 0.00001
-
-# This is also called the "t" parameter. This is the parameter used in the barrier method / interior point method.
-# It is important to not start with a too big bb value. 
-bb = 1
-
-while 1: 
+while i < max_iter: 
 # ------Data transmission node i-------
 
     if flag_transmission == 1:
@@ -189,6 +196,11 @@ while 1:
 
     if flag_update == 1:
         
+        # Every something iteration, increase bb. In the real world synchronous clocks are used for now, not based on iterations. 
+        if i % gamma == 0:
+            bb = bb*mu
+        print("bb: ", bb)
+
         # In order to increase the basin of attraction and the robustness of the algorithm, it is suitable to force: hessian >= c*I
         if (np.abs(np.linalg.eigvals(zi)) < c).all():
             zi = c*np.identity(n)
@@ -217,20 +229,14 @@ while 1:
         flag_reception, flag_update, flag_transmission, flag_update2, flag_reception2, flag_transmission2 = 0, 0, 0, 0, 0, 0
         flag_transmission = 1
         print("iteration: ", i)
-        
-        # Every something iteration, increase bb. In the real world synchronous clocks are used for now, not based on iterations. 
-        if i % 30 == 0:
-            bb = bb*mu
-        print("bb: ", bb)
-        
 
-        i += 1 # For plotting and simulating
+        # For plotting and simulating
+        i += 1 
         
+        # Stopping criterion, it stops when xi and xj are approximately the same.
+        # Can decrease tolerance to make it even more accurate
         diff = np.abs(xi - xj)
-
-        # Stopping criterion, it stops when xi and xj have approximately come to a consensus.
-        # Can decrease the value to make it even more accurate
-        if np.all(diff < 1e-3):
+        if np.all(diff < tolerance):
             break
     
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
