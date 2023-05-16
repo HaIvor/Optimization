@@ -315,7 +315,7 @@ ax3.legend(loc="lower right")
 
 plt.xlabel('iterations') 
 
-figure.suptitle('ra-NRC with two nodes (float16 restriction) - Forced sequence', fontsize=16)
+figure.suptitle('ra-NRC with two nodes (float16 restriction + constant bb value) - Forced sequence', fontsize=16)
 
 plt.xlabel('iterations') 
 
