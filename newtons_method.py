@@ -69,20 +69,20 @@ c = 1E-6
 # A value of how accurate one wants the end result to be. A smaller value = bigger precision 
 accuracy = 1e-5
 
-# Newton's method step size
+# Newton's method step size 
 epsilon = 0.2
 
 # For stopping criterion 
-lamba_2 = 1
+lambda_2 = 1
 
 # The stopping criterion has something to do with the Newton decrement. More information: "Convex Optimization", Stephen Boyd & Lieven Vandenberghe. p. 486
-while (lamba_2/2) > accuracy:
+while (lambda_2/2) > accuracy:
 
     # Pulling out the gradient/hessian at point xi
     gradient, hi, function_value = calculateHessianAndGradient(xi)
 
-    # The Newton decrement squared = lamba**2 = lambda_2
-    lamba_2 = np.transpose(gradient)@np.linalg.inv(hi)@gradient
+    # The Newton decrement squared = lambda**2 = lambda_2
+    lambda_2 = np.transpose(gradient)@np.linalg.inv(hi)@gradient
 
     # In order to increase the basin of attraction and the robustness of the algorithm, it is suitable to force: hessian >= c*I
     if (np.abs(np.linalg.eigvals(hi)) < c).all():
@@ -91,8 +91,11 @@ while (lamba_2/2) > accuracy:
     print("hi: \n", hi)
     print("gradient: \n", gradient)
 
-    # Newton's method 
-    xi = (1-epsilon)*xi+epsilon*(np.linalg.inv(hi))@(hi@xi-gradient)
+    d = -np.linalg.inv(hi)@gradient
+    print("d:", d)
+
+    # Newton's method
+    xi = xi - epsilon*np.linalg.inv(hi)@gradient
 
     # For plotting
     x1_list = np.append(x1_list, xi[0])
