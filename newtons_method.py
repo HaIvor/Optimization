@@ -79,20 +79,20 @@ lambda_2 = 1
 while (lambda_2/2) > accuracy:
 
     # Pulling out the gradient/hessian at point xi
-    gradient, hi, function_value = calculateHessianAndGradient(xi)
+    gradient, hessian, function_value = calculateHessianAndGradient(xi)
 
     # The Newton decrement squared = lambda**2 = lambda_2
-    lambda_2 = np.transpose(gradient)@np.linalg.inv(hi)@gradient
+    lambda_2 = np.transpose(gradient)@np.linalg.inv(hessian)@gradient
 
     # In order to increase the basin of attraction and the robustness of the algorithm, it is suitable to force: hessian >= c*I
-    if (np.abs(np.linalg.eigvals(hi)) < c).all():
-            hi = c*np.identity(3) 
+    if (np.abs(np.linalg.eigvals(hessian)) < c).all():
+            hessian = c*np.identity(3) 
 
-    print("hi: \n", hi)
+    print("hessian: \n", hessian)
     print("gradient: \n", gradient)
 
     # Newton's method
-    xi = (1-epsilon)*xi+epsilon*(np.linalg.inv(hi))@(hi@xi-gradient)
+    xi = (1-epsilon)*xi+epsilon*(np.linalg.inv(hessian))@(hessian@xi-gradient)
 
     # For plotting
     x1_list = np.append(x1_list, xi[0])
