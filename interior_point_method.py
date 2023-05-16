@@ -149,7 +149,7 @@ while (m/t) > tolerance:
     print("=====DONE NR=====")
 
     # Increasing t 
-    t = 2*t
+    t = mu*t
     print("t :", t)
 
     # Number of outer loops increases by 1.
