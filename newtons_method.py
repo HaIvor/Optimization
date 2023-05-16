@@ -91,11 +91,8 @@ while (lambda_2/2) > accuracy:
     print("hi: \n", hi)
     print("gradient: \n", gradient)
 
-    d = -np.linalg.inv(hi)@gradient
-    print("d:", d)
-
     # Newton's method
-    xi = xi - epsilon*np.linalg.inv(hi)@gradient
+    xi = (1-epsilon)*xi+epsilon*(np.linalg.inv(hi))@(hi@xi-gradient)
 
     # For plotting
     x1_list = np.append(x1_list, xi[0])
