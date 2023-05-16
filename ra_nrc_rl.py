@@ -94,12 +94,6 @@ out_neigh = 1
 # Value used in order to increase the basin of attraction and the robustness of the algorithm
 c = 1E-8
 
-# bb multiplier (used in the barrier method)
-mu = 2
-
-# Number of sequences before increasing bb
-gamma = 20
-
 # How exact one wants before the simulation stops. A lower tolerance value => more exact
 tolerance = 1e-3
 
@@ -111,7 +105,7 @@ epsilon = 0.00001
 bb = 1
 
 # Max iterations (if it never converges)
-max_iter = 2879
+max_iter = 1000
 
 # Note: The next steps heavily follows the given pseudocode in the bachelor report.
 
@@ -321,7 +315,7 @@ ax3.legend(loc="lower right")
 
 plt.xlabel('iterations') 
 
-figure.suptitle('ra-NRC with two nodes - Forced sequence', fontsize=16)
+figure.suptitle('ra-NRC with two nodes (float16 restriction) - Forced sequence', fontsize=16)
 
 plt.xlabel('iterations') 
 
