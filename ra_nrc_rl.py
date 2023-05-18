@@ -113,9 +113,9 @@ max_iter = 500
 
 # Initial estimate for node i for the global optimization. Arbitrary values.
 xi = np.array([
-    [500], # N_start
+    [800], # N_start
     [4], # M_start
-    [5] # m_start
+    [20] # m_start
 ])
 
 yi, gi, gi_old = np.zeros((n, 1)), np.zeros((n, 1)), np.zeros((n, 1)) # if n=3 -> they are 3x1 zero matrices
@@ -128,9 +128,9 @@ rhoi_y, rhoi_z = np.zeros((n,1)), np.zeros((n,n))
 
 # Initial estimate for node j for the global optimization. Arbitrary values.
 xj = np.array([ 
-    [500], # N_start
-    [4], # M_start
-    [5] # m_start
+    [570], # N_start
+    [7], #M_start
+    [32] # m_start
 ]) 
 
 yj, gj, gj_old = np.zeros((n, 1)), np.zeros((n, 1)), np.zeros((n, 1)) # if n=3 -> they are 3x1 zero matrices
@@ -309,9 +309,9 @@ ax1.grid()
 ax2.grid()
 ax3.grid()
 
-ax1.legend(loc="lower right")
-ax2.legend(loc="lower right")
-ax3.legend(loc="lower right")
+ax1.legend(loc="upper left")
+ax2.legend(loc="upper left")
+ax3.legend(loc="upper left")
 
 ax1.set_xlabel('Iterations')
 ax2.set_xlabel('Iterations')
