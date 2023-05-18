@@ -105,7 +105,7 @@ epsilon = 0.00001
 bb = 1
 
 # Max iterations (if it never converges)
-max_iter = 1000
+max_iter = 500
 
 # Note: The next steps heavily follows the given pseudocode in the bachelor report.
 
@@ -315,7 +315,7 @@ ax3.legend(loc="lower right")
 
 plt.xlabel('iterations') 
 
-figure.suptitle('ra-NRC with two nodes (float16 restriction + constant bb value) - Forced sequence', fontsize=16)
+figure.suptitle('ra-NRC with two nodes (float16 restriction + constant IPM parameter value) - Forced sequence', fontsize=16)
 
 plt.xlabel('iterations') 
 
