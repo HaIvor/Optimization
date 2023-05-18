@@ -135,8 +135,8 @@ rhoi_y, rhoi_z = np.zeros((n,1)), np.zeros((n,n))
 # Initial estimate for node j for the global optimization. Arbitrary values.
 xj = np.array([ 
     [570], # N_start
-    [3], #M_start
-    [30] # m_start
+    [7], #M_start
+    [32] # m_start
 ]) 
 
 yj, gj, gj_old = np.zeros((n, 1)), np.zeros((n, 1)), np.zeros((n, 1)) # if n=3 -> they are 3x1 zero matrices
@@ -323,11 +323,11 @@ ax1.legend(loc="lower right")
 ax2.legend(loc="lower right")
 ax3.legend(loc="lower right")
 
-plt.xlabel('iterations') 
+ax1.set_xlabel('Iterations')
+ax2.set_xlabel('Iterations')
+ax3.set_xlabel('Iterations')
 
 figure.suptitle('ra-NRC with two nodes - Forced sequence', fontsize=16)
-
-plt.xlabel('iterations') 
 
 print("---------------------------------------------------------------------")
 print(f"The last N values: \n N1 = {N_list[-1]} \n N2 = {N_list2[-1]}\n")
